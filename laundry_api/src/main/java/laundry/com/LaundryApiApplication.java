@@ -1,4 +1,4 @@
-package laundry.com.laundry_api;
+package laundry.com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
