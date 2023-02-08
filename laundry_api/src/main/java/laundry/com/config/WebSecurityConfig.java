@@ -16,9 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-	
-	private static final String[] AUTH_WHITELIST = {
-			"/laundry/auth/login"	};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -39,9 +36,8 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		return http.cors().and().csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.exceptionHandling().and()
-				.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll().and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling().and()
+				.authorizeRequests().antMatchers("/laundry/auth/login").permitAll().and()
 				.authorizeRequests().antMatchers(HttpMethod.POST, "/laundry/customers").permitAll().and()
 				.authorizeRequests().antMatchers(HttpMethod.GET, "/laundry/customers/*/check-phone-number").permitAll()
 				.anyRequest().authenticated().and()

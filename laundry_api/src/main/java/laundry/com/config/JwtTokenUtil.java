@@ -19,8 +19,8 @@ public class JwtTokenUtil {
     private long validityInMilliseconds;
 
 	
-	public String createToken(String username) {
-        Claims claims = Jwts.claims().setSubject(username);
+	public String createToken(String phoneNumber) {
+        Claims claims = Jwts.claims().setSubject(phoneNumber);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 

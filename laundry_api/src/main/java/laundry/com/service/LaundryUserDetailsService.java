@@ -12,18 +12,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class LaundryUserDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private SqlSession sqlSession;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Map<String, Object> userInfo = sqlSession.selectOne("UserInfo.getDetailedUserInfoByUsername", username);
-		if(userInfo == null) {
-			throw new UsernameNotFoundException(username + " is not found!");
+	public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
+		Map<String, String> userAuth = sqlSession.selectOne("User.getUserByPhoneNumber", phoneNumber);
+		if(userAuth == null) {
+			throw new UsernameNotFoundException(phoneNumber + " is not found!");
 		}
-		User user = new User(userInfo.get("username").toString(), userInfo.get("password").toString(), new ArrayList<>());
+		User user = new User(userAuth.get("phoneNumber"), userAuth.get("password"), new ArrayList<>());
 		return user;
 	}
 
