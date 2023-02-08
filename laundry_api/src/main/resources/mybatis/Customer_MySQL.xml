@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Customer">
+
+	<select id="getCustomerByPhoneNumber" 
+		parameterType="java.lang.String"
+		resultType="java.util.LinkedHashMap">
+		SELECT CUSTOMER_ID AS customerId
+			, CUSTOMER_NAME AS customerName
+			, PHONE_NUMBER AS phoneNumber
+			, PASSWORD AS password
+			, ADDRESS AS address
+			, ENABED AS enabled
+		FROM CUSTOMER
+		WHERE ENABLED = 1
+			AND PHONE_NUMBER = #{phoneNumber}
+	</select>
+	
+	<select id="getCustomerByCustomerId" 
+		parameterType="java.lang.Integer"
+		resultType="java.util.LinkedHashMap">
+		SELECT CUSTOMER_ID AS customerId
+			, CUSTOMER_NAME AS customerName
+			, PHONE_NUMBER AS phoneNumber
+			, PASSWORD AS password
+			, ADDRESS AS address
+			, ENABED AS enabled
+		FROM CUSTOMER
+		WHERE ENABLED = 1
+			AND CUSTOMER_ID = #{customerId}
+	</select>
+
+	<insert id="insert" parameterType="java.util.Map">
+		INSERT INTO CUSTOMER(
+			PHONE_NUMBER
+			, PASSWORD
+			, ENABLED
+		)
+		VALUES(
+			#{phoneNumber}
+			, #{password}
+			, 1
+		)
+	</insert>
+
+</mapper>
