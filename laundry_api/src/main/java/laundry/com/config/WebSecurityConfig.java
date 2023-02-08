@@ -42,7 +42,8 @@ public class WebSecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.exceptionHandling().and()
 				.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll().and()
-				.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/laundry/users").permitAll().anyRequest().authenticated().and()
+				.authorizeRequests().antMatchers(HttpMethod.POST, "/laundry/users").permitAll()
+				.anyRequest().authenticated().and()
 				.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).build();
 	}
 }

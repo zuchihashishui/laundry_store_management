@@ -1,3 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="User"></mapper>
+<mapper namespace="User">
+
+	<select id="getUserByPhoneNumber" 
+		parameterType="java.lang.String"
+		resultType="java.util.LinkedHashMap">
+		SELECT u.USER_ID AS userId
+			, u.PHONE_NUMBER AS phoneNumber
+			, u.PASSWORD AS password
+			, u.ADDRESS AS address
+			, u.ENABLED AS enabled
+			, u.ROLE_ID AS roleId
+			, r.ROLE_NAME AS roleName
+		FROM USER u
+			LEFT JOIN ROLE r ON r.ROLE_ID = u.ROLE_ID
+		WHERE ENABLED = 1
+			AND PHONE_NUMBER = #{phoneNumber}
+	</select>
+	
+	<select id="getUserByUserId" 
+		parameterType="java.lang.Integer"
+		resultType="java.util.LinkedHashMap">
+		SELECT u.USER_ID AS userId
+			, u.PHONE_NUMBER AS phoneNumber
+			, u.PASSWORD AS password
+			, u.ADDRESS AS address
+			, u.ENABLED AS enabled
+			, u.ROLE_ID AS roleId
+			, r.ROLE_NAME AS roleName
+		FROM USER u
+			LEFT JOIN ROLE r ON r.ROLE_ID = u.ROLE_ID
+		WHERE ENABLED = 1
+			AND USER_ID = #{userId}
+	</select>
+
+	<insert id="insert" parameterType="java.util.Map">
+		INSERT INTO USER(
+			PHONE_NUMBER
+			, PASSWORD
+			, ADDRESS
+			, ENABLED
+			, ROLE_ID
+		)
+		VALUES(
+			#{phoneNumber}
+			, #{password}
+			, #{address}
+			, 1
+			, #{roleId}
+		)
+	</insert>
+
+</mapper>
