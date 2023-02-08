@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import laundry.com.config.JwtTokenUtil;
+import laundry.com.service.LaundryUserDetailsService;
 
 @RestController
 public class AuthController {
@@ -25,9 +26,13 @@ public class AuthController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 	
+	@Autowired
+	private LaundryUserDetailsService laundryUserDetailsService;
+	
 	@PostMapping("/laundry/auth/login")
 	public ResponseEntity<?> login(@RequestBody Map<String, String> auth) {
-		try { 
+		try {
+			laundryUserDetailsService.setUserType(auth.get("userType"));
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.get("phoneNumber"), auth.get("password")));
 			SecurityContextHolder.getContext().setAuthentication(authentication);

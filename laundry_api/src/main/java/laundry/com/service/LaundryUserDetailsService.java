@@ -16,10 +16,26 @@ public class LaundryUserDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	private String userType;
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
-		Map<String, String> userAuth = sqlSession.selectOne("User.getUserByPhoneNumber", phoneNumber);
+		Map<String, String> userAuth = null;
+		if("user".equals(userType)) {
+			userAuth = sqlSession.selectOne("User.getUserByPhoneNumber", phoneNumber);
+		} else if("customer".equals(userType)) {
+			userAuth = sqlSession.selectOne("Customer.getCustomerByPhoneNumber", phoneNumber);
+		}
+		
 		if(userAuth == null) {
 			throw new UsernameNotFoundException(phoneNumber + " is not found!");
 		}
