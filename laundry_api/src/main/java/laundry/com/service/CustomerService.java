@@ -1,5 +1,6 @@
 package laundry.com.service;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,5 +23,18 @@ public class CustomerService {
 		customer.put("password", passwordEncoder.encode(customer.get("password")));
 		sqlSession.insert("Customer.insert", customer);
 	}
-
+	
+	public LinkedHashMap<String, String> getCustomerByPhoneNumber(String phoneNumber) {
+		LinkedHashMap<String, String> customer = sqlSession.selectOne("Customer.getCustomerByPhoneNumber", phoneNumber);
+		return customer;
+	}
+	
+	public Boolean isPhoneNumberExists(String phoneNumber) {
+		LinkedHashMap<String, String> customer = sqlSession.selectOne("Customer.getCustomerByPhoneNumber", phoneNumber);
+		if(customer != null) {
+			return true;
+		}
+		return false;
+	}
+	
 }

@@ -10,7 +10,7 @@
 			, PHONE_NUMBER AS phoneNumber
 			, PASSWORD AS password
 			, ADDRESS AS address
-			, ENABED AS enabled
+			, ENABLED AS enabled
 		FROM CUSTOMER
 		WHERE ENABLED = 1
 			AND PHONE_NUMBER = #{phoneNumber}
