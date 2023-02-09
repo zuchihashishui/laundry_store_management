@@ -24,19 +24,6 @@ public class JwtTokenUtil {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public String createToken(String phoneNumber) {
-        Claims claims = Jwts.claims().setSubject(phoneNumber);
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
-                .compact();
-    }
-	
 	public String createToken(String phoneNumber, String userType) {
         Claims claims = Jwts.claims().setSubject(phoneNumber);
         

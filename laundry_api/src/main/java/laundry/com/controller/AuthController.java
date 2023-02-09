@@ -39,11 +39,14 @@ public class AuthController {
 			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"), auth.get("userType"));
 			
 			Map<String, Object> data = new LinkedHashMap<>();
+			data.put("timestamp", System.currentTimeMillis());
 			data.put("status", HttpStatus.OK.value());
-			data.put("access_token", token);
+			data.put("token", token);
+			data.put("message", "success");
 			return new ResponseEntity<>(data, HttpStatus.OK);
 		} catch (Exception e) {
 			Map<String, Object> data = new LinkedHashMap<>();
+			data.put("timestamp", System.currentTimeMillis());
 			data.put("status", HttpStatus.UNAUTHORIZED.value());
 			data.put("message", e.getMessage());
 			return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);

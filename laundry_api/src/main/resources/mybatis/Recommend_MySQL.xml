@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Recommend">
+	
+	<select id="getRecommendsByCustomerId" 
+		parameterType="java.lang.Integer"
+		resultType="java.util.LinkedHashMap">
+		SELECT RECOMMEND_ID AS recommendId
+			, RECOMMEND_NAME AS recommendName
+			, PHONE_NUMBER AS phoneNumber
+			, ADDRESS AS address
+			, NOTE AS note
+			, CUSTOMER_ID AS customerId
+		FROM RECOMMEND
+		WHERE CUSTOMER_ID = #{customerId}
+	
+	</select>
+
+</mapper>
