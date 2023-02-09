@@ -18,6 +18,21 @@
 			AND PHONE_NUMBER = #{phoneNumber}
 	</select>
 	
+	<select id="getUserByPhoneNumberWithoutPassword" 
+		parameterType="java.lang.String"
+		resultType="java.util.LinkedHashMap">
+		SELECT u.USER_ID AS userId
+			, u.PHONE_NUMBER AS phoneNumber
+			, u.ADDRESS AS address
+			, u.ENABLED AS enabled
+			, u.ROLE_ID AS roleId
+			, r.ROLE_NAME AS roleName
+		FROM USER u
+			LEFT JOIN ROLE r ON r.ROLE_ID = u.ROLE_ID
+		WHERE ENABLED = 1
+			AND PHONE_NUMBER = #{phoneNumber}
+	</select>
+	
 	<select id="getUserByUserId" 
 		parameterType="java.lang.Integer"
 		resultType="java.util.LinkedHashMap">

@@ -16,6 +16,19 @@
 			AND PHONE_NUMBER = #{phoneNumber}
 	</select>
 	
+	<select id="getCustomerByPhoneNumberWithoutPassword" 
+		parameterType="java.lang.String"
+		resultType="java.util.LinkedHashMap">
+		SELECT CUSTOMER_ID AS customerId
+			, CUSTOMER_NAME AS customerName
+			, PHONE_NUMBER AS phoneNumber
+			, ADDRESS AS address
+			, ENABLED AS enabled
+		FROM CUSTOMER
+		WHERE ENABLED = 1
+			AND PHONE_NUMBER = #{phoneNumber}
+	</select>
+	
 	<select id="getCustomerByCustomerId" 
 		parameterType="java.lang.Integer"
 		resultType="java.util.LinkedHashMap">

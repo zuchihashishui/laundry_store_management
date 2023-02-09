@@ -36,7 +36,7 @@ public class AuthController {
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.get("phoneNumber"), auth.get("password")));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"));
+			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"), auth.get("userType"));
 			
 			Map<String, Object> data = new LinkedHashMap<>();
 			data.put("status", HttpStatus.OK.value());
