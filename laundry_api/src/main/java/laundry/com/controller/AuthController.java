@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import laundry.com.config.JwtTokenUtil;
+import laundry.com.exception.LoginException;
 import laundry.com.service.LaundryUserDetailsService;
 
 @RestController
@@ -30,7 +31,7 @@ public class AuthController {
 	private LaundryUserDetailsService laundryUserDetailsService;
 	
 	@PostMapping("/laundry/auth/login")
-	public ResponseEntity<?> login(@RequestBody Map<String, String> auth) {
+	public ResponseEntity<?> login(@RequestBody Map<String, String> auth) throws LoginException {
 		try {
 			laundryUserDetailsService.setUserType(auth.get("userType"));
 			Authentication authentication = authenticationManager.authenticate(
@@ -45,11 +46,7 @@ public class AuthController {
 			data.put("message", "success");
 			return new ResponseEntity<>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			Map<String, Object> data = new LinkedHashMap<>();
-			data.put("timestamp", System.currentTimeMillis());
-			data.put("status", HttpStatus.UNAUTHORIZED.value());
-			data.put("message", e.getMessage());
-			return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
+			throw new LoginException("Login has failed!");
 		}
 	}
 
