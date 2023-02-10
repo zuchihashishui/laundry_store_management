@@ -15,7 +15,7 @@ public class ExceptionHandling {
 	protected ResponseEntity<?> handleLoginFailed(LoginException exception) {
 		Map<String, Object> error = new LinkedHashMap<>();
 		error.put("timestamp", System.currentTimeMillis());
-		error.put("status", HttpStatus.UNAUTHORIZED);
+		error.put("status", HttpStatus.UNAUTHORIZED.value());
 		error.put("error", exception.getMessage());
 		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
 	}
