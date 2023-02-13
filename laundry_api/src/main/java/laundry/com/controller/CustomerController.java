@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import laundry.com.exception.SystemException;
 import laundry.com.service.CustomerService;
 import laundry.com.service.RecommendService;
 
@@ -26,7 +27,7 @@ public class CustomerController {
 	private RecommendService recommendService;
 	
 	@PostMapping("/laundry/customers")
-	public ResponseEntity<?> create(@RequestBody Map<String, String> customer) {
+	public ResponseEntity<?> create(@RequestBody Map<String, String> customer) throws SystemException {
 		customerService.insert(customer);
 		
 		Map<String, Object> data = new LinkedHashMap<>();

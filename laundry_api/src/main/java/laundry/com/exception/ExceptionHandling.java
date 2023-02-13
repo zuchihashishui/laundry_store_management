@@ -31,5 +31,14 @@ public class ExceptionHandling {
 		
 		return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
 	}
+	
+	@ExceptionHandler(value = SystemException.class)
+	protected ResponseEntity<Object> systemException(SystemException ex, WebRequest request) {
+		Map<String, Object> error = new LinkedHashMap<>();
+		error.put("timestamp", System.currentTimeMillis());
+		error.put("status", HttpStatus.BAD_REQUEST.value());
+		error.put("error", ex.getMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
 
 }

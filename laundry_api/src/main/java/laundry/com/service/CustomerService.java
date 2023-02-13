@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import laundry.com.exception.SystemException;
+
 @Service
 @Transactional
 public class CustomerService {
@@ -19,7 +21,12 @@ public class CustomerService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public void insert(Map<String, String> customer) {
+	public void insert(Map<String, String> customer) throws SystemException {
+		LinkedHashMap<String, String> customerVO = sqlSession.selectOne("Customer.getCustomerByPhoneNumber", customer.get("phoneNumber"));
+		if(customerVO != null) {
+			throw new SystemException("Phone number has existed");
+		}
+		
 		customer.put("password", passwordEncoder.encode(customer.get("password")));
 		sqlSession.insert("Customer.insert", customer);
 	}
