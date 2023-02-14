@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import laundry.com.config.JwtTokenUtil;
 import laundry.com.exception.LoginException;
-import laundry.com.response.ApiResponse;
+import laundry.com.response.ApiLoginResponse;
 
 @RestController
 public class AuthController {
@@ -34,7 +34,7 @@ public class AuthController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"), auth.get("userType"));			
 			
-			return new ResponseEntity<>(new ApiResponse("token", token), HttpStatus.OK);
+			return new ResponseEntity<>(new ApiLoginResponse(token), HttpStatus.OK);
 		} catch (Exception e) {
 			throw new LoginException("Login has failed!");
 		}

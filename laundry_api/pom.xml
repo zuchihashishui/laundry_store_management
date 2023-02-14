@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>laundry.com</groupId>
 	<artifactId>laundry_api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>laundry_api</name>
 	<description>Laundry Store</description>
 	<properties>
