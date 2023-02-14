@@ -27,13 +27,8 @@ public class JwtTokenUtil {
 	public String createToken(String phoneNumber, String userType) {
         Claims claims = Jwts.claims().setSubject(phoneNumber);
         
-        if("customer".equals(userType)) {
-        	 LinkedHashMap<String, String> customer = sqlSession.selectOne("Customer.getCustomerByPhoneNumberWithoutPassword", phoneNumber);
-        	 claims.put("customer", customer);
-        } else if("user".equals(userType)) {
-        	LinkedHashMap<String, String> user = sqlSession.selectOne("User.getUserByPhoneNumberWithoutPassword", phoneNumber);
-        	claims.put("user", user);
-        }
+        LinkedHashMap<String, String> user = sqlSession.selectOne("User.getUserByPhoneNumberWithoutPassword", phoneNumber);
+        claims.put("user", user);
         
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);

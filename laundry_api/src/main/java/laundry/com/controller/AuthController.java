@@ -26,14 +26,10 @@ public class AuthController {
 	
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-	
-	@Autowired
-	private LaundryUserDetailsService laundryUserDetailsService;
-	
+
 	@PostMapping("/laundry/auth/login")
 	public ResponseEntity<?> login(@RequestBody Map<String, String> auth) throws LoginException {
 		try {
-			laundryUserDetailsService.setUserType(auth.get("userType"));
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.get("phoneNumber"), auth.get("password")));
 			SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -62,7 +62,7 @@
 			, #{password}
 			, #{address}
 			, 1
-			, #{roleId}
+			, 1
 		)
 	</insert>
 

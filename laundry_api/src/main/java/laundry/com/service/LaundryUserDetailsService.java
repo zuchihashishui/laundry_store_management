@@ -29,12 +29,7 @@ public class LaundryUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
-		Map<String, String> userAuth = null;
-		if("user".equals(userType)) {
-			userAuth = sqlSession.selectOne("User.getUserByPhoneNumber", phoneNumber);
-		} else if("customer".equals(userType)) {
-			userAuth = sqlSession.selectOne("Customer.getCustomerByPhoneNumber", phoneNumber);
-		}
+		Map<String, String> userAuth = sqlSession.selectOne("User.getUserByPhoneNumber", phoneNumber);
 		
 		if(userAuth == null) {
 			throw new UsernameNotFoundException(phoneNumber + " is not found!");
