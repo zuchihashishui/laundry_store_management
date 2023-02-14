@@ -1,6 +1,5 @@
 package laundry.com.controller;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import laundry.com.config.JwtTokenUtil;
 import laundry.com.exception.LoginException;
-import laundry.com.service.LaundryUserDetailsService;
+import laundry.com.response.ApiResponse;
 
 @RestController
 public class AuthController {
@@ -33,14 +32,9 @@ public class AuthController {
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.get("phoneNumber"), auth.get("password")));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"), auth.get("userType"));
+			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"), auth.get("userType"));			
 			
-			Map<String, Object> data = new LinkedHashMap<>();
-			data.put("timestamp", System.currentTimeMillis());
-			data.put("status", HttpStatus.OK.value());
-			data.put("token", token);
-			data.put("message", "success");
-			return new ResponseEntity<>(data, HttpStatus.OK);
+			return new ResponseEntity<>(new ApiResponse("token", token), HttpStatus.OK);
 		} catch (Exception e) {
 			throw new LoginException("Login has failed!");
 		}

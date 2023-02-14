@@ -1,6 +1,5 @@
 package laundry.com.controller;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import laundry.com.exception.SystemException;
+import laundry.com.response.ApiResponse;
 import laundry.com.service.UserService;
 
 @RestController
@@ -23,11 +23,7 @@ public class UserController {
 	public ResponseEntity<?> create(@RequestBody Map<String, String> user) throws SystemException {
 		userService.insert(user);
 		
-		Map<String, Object> data = new LinkedHashMap<>();
-		data.put("timestamp", System.currentTimeMillis());
-		data.put("status", HttpStatus.OK.value());
-		data.put("message", "Regist user successfully!");
-		return new ResponseEntity<>(data, HttpStatus.OK);
+		return new ResponseEntity<>(new ApiResponse("Regist user successfully!"), HttpStatus.OK);
 	}
 
 }
