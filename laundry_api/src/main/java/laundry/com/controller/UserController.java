@@ -26,7 +26,7 @@ public class UserController {
 		Map<String, Object> data = new LinkedHashMap<>();
 		data.put("timestamp", System.currentTimeMillis());
 		data.put("status", HttpStatus.OK.value());
-		data.put("message", "Insert customer successfully!");
+		data.put("message", "Regist user successfully!");
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 
