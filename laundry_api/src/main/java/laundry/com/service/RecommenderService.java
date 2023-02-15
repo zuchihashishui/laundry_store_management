@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class RecommenderService {
+public class RecommenderService extends CommonService {
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -22,6 +22,7 @@ public class RecommenderService {
 	}
 	
 	public void insert(Map<String, String> recommender) {
+		recommender.put("registPhoneNumber", currentUser().get("phoneNumber"));
 		sqlSession.insert("Recommender.insert", recommender);
 	}
 	

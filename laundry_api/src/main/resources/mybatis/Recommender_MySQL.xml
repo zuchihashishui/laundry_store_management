@@ -10,7 +10,7 @@
 			, PHONE_NUMBER AS phoneNumber
 			, ADDRESS AS address
 			, NOTE AS note
-			, USER_ID AS userId
+			, REGIST_PHONE_NUMBER AS registPhoneNumber
 		FROM RECOMMENDER
 		WHERE USER_ID = #{userId}
 	</select>
@@ -21,14 +21,14 @@
 			, PHONE_NUMBER
 			, ADDRESS
 			, NOTE
-			, USER_ID
+			, REGIST_PHONE_NUMBER
 		)
 		VALUES(
 			#{recommenderName}
 			, #{phoneNumber}
 			, #{address}
 			, #{note}
-			, #{userId}
+			, #{registPhoneNumber}
 		)
 	</insert>
 
