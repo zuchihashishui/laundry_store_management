@@ -26,7 +26,7 @@ public class AuthController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-	@PostMapping("/laundry/auth/login")
+	@PostMapping("/api/laundry/auth/login")
 	public ResponseEntity<?> login(@RequestBody Map<String, String> auth) throws LoginException {
 		try {
 			Authentication authentication = authenticationManager.authenticate(

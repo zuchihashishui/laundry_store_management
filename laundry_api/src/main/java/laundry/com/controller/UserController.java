@@ -19,7 +19,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/laundry/users")
+	@PostMapping("/api/laundry/users")
 	public ResponseEntity<?> create(@RequestBody Map<String, String> user) throws SystemException {
 		userService.insert(user);
 		

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import laundry.com.exception.SystemException;
 import laundry.com.service.CustomerService;
-import laundry.com.service.RecommendService;
+import laundry.com.service.RecommenderService;
 
 @RestController
 public class CustomerController {
@@ -24,7 +24,7 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@Autowired
-	private RecommendService recommendService;
+	private RecommenderService recommendService;
 	
 	@PostMapping("/laundry/customers")
 	public ResponseEntity<?> create(@RequestBody Map<String, String> customer) throws SystemException {
@@ -59,7 +59,7 @@ public class CustomerController {
 	
 	@GetMapping("/laundry/customers/{customerId}/recommends")
 	public ResponseEntity<?> getAllRecomendsByCustomerId(@PathVariable Integer customerId) {
-		List<LinkedHashMap<String, String>> recommends = recommendService.getRecomendsByCustomerId(customerId);
+		List<LinkedHashMap<String, String>> recommends = recommendService.getRecomendsByUserId(customerId);
 		
 		Map<String, Object> data = new LinkedHashMap<>();
 		data.put("timestamp", System.currentTimeMillis());
