@@ -2,6 +2,7 @@ package laundry.com.config;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class JwtTokenUtil {
 	@Value("${jwt.secret}")
     private String secretKey;
 	
-	@Value("${jwt.validityInMilliseconds}")
-    private long validityInMilliseconds;
+	@Value("${jwt.expirationTime}")
+    private long expirationTime;
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -29,9 +30,9 @@ public class JwtTokenUtil {
         
         LinkedHashMap<String, String> user = sqlSession.selectOne("User.getUserByPhoneNumberWithoutPassword", phoneNumber);
         claims.put("user", user);
-        
+                
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        Date validity = new Date(now.getTime() + expirationTime);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -44,6 +45,18 @@ public class JwtTokenUtil {
 	public Claims parseToken(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
+	
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> parseTokenToUser(String token) {
+		Map<String, Object> user = new LinkedHashMap<>();
+		
+		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+		if (claims != null) {
+			user.putAll((Map<String, Object>) claims.get("user"));
+			user.put("validity", claims.getExpiration());
+		}
+		return user;
+	}
 
     public boolean validateToken(String token) {
         try {

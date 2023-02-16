@@ -1,14 +1,10 @@
 package laundry.com.config;
 
-import io.jsonwebtoken.Claims;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -16,13 +12,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-	
-	@Autowired
-    private UserDetailsService userDetailsService;
 	
 	@Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -39,12 +34,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if (token != null && jwtTokenUtil.validateToken(token)) {
-            Claims claims = jwtTokenUtil.parseToken(token);
-            String phoneNumber = claims.getSubject();
-            UserDetails userDetails = userDetailsService.loadUserByUsername(phoneNumber);
-            if (userDetails != null) {
+            Map<String, Object> user = jwtTokenUtil.parseTokenToUser(token);
+            if (user != null) {
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
