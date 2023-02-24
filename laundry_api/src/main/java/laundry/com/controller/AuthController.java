@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import laundry.com.config.JwtTokenUtil;
+import laundry.com.config.JwtTokenProvider;
 import laundry.com.exception.LoginException;
 import laundry.com.response.ApiLoginResponse;
 
@@ -24,7 +24,7 @@ public class AuthController {
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
+	private JwtTokenProvider jwtTokenUtil;
 
 	@PostMapping("/api/laundry/auth/login")
 	public ResponseEntity<?> login(@RequestBody Map<String, String> auth) throws LoginException {
@@ -32,7 +32,7 @@ public class AuthController {
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.get("phoneNumber"), auth.get("password")));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"), auth.get("userType"));			
+			String token = jwtTokenUtil.createToken(auth.get("phoneNumber"));			
 			
 			return new ResponseEntity<>(new ApiLoginResponse(token), HttpStatus.OK);
 		} catch (Exception e) {

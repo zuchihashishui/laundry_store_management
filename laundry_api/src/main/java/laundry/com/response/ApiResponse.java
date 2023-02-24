@@ -21,14 +21,6 @@ public class ApiResponse extends LinkedHashMap<String, Object> {
 		this.put("path", Utils.getRequestUri());
 	}
 	
-	public ApiResponse(String key, Object data, String message) {
-		this.put("timestamp", System.currentTimeMillis());
-		this.put("status", HttpStatus.OK.value());
-		this.put(key, data);
-		this.put("message", message);
-		this.put("path", Utils.getRequestUri());
-	}
-	
 	public ApiResponse(Object data, String message) {
 		this.put("timestamp", System.currentTimeMillis());
 		this.put("status", HttpStatus.OK.value());

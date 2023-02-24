@@ -2,17 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Recommender">
 	
-	<select id="getRecommendsByUserId" 
-		parameterType="java.lang.Integer"
+	<select id="getRecommendsByCreatedBy" 
+		parameterType="java.lang.String"
 		resultType="java.util.LinkedHashMap">
 		SELECT RECOMMENDER_ID AS recommenderId
 			, RECOMMENDER_NAME AS recommenderName
 			, PHONE_NUMBER AS phoneNumber
 			, ADDRESS AS address
 			, NOTE AS note
-			, REGIST_PHONE_NUMBER AS registPhoneNumber
+			, CREATED_BY AS createdBy
+			, CREATED_AT AS createdAt
 		FROM RECOMMENDER
-		WHERE USER_ID = #{userId}
+		WHERE CREATED_BY = #{createdBy}
 	</select>
 	
 	<insert id="insert" parameterType="java.util.Map">
@@ -21,14 +22,16 @@
 			, PHONE_NUMBER
 			, ADDRESS
 			, NOTE
-			, REGIST_PHONE_NUMBER
+			, CREATED_BY
+			, CREATED_AT
 		)
 		VALUES(
 			#{recommenderName}
 			, #{phoneNumber}
 			, #{address}
 			, #{note}
-			, #{registPhoneNumber}
+			, #{createdBy}
+			, NOW()
 		)
 	</insert>
 

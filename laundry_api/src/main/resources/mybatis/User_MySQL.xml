@@ -12,8 +12,12 @@
 			, u.ENABLED AS enabled
 			, u.ROLE_ID AS roleId
 			, r.ROLE_NAME AS roleName
+			, u.CREATED_BY AS createdBy
+			, u.CREATED_AT AS createdAt
+			, u.UPDATED_BY AS updatedBy
+			, u.UPDATED_AT AS updatedAt
 		FROM USER u
-			LEFT JOIN ROLE r ON r.ROLE_ID = u.ROLE_ID
+			INNER JOIN ROLE r ON r.ROLE_ID = u.ROLE_ID
 		WHERE ENABLED = 1
 			AND PHONE_NUMBER = #{phoneNumber}
 	</select>

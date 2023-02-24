@@ -14,7 +14,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JwtTokenUtil {
+public class JwtTokenProvider {
 	
 	@Value("${jwt.secret}")
     private String secretKey;
@@ -25,19 +25,19 @@ public class JwtTokenUtil {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public String createToken(String phoneNumber, String userType) {
+	public String createToken(String phoneNumber) {
         Claims claims = Jwts.claims().setSubject(phoneNumber);
         
         LinkedHashMap<String, String> user = sqlSession.selectOne("User.getUserByPhoneNumberWithoutPassword", phoneNumber);
         claims.put("user", user);
-                
+        
         Date now = new Date();
-        Date validity = new Date(now.getTime() + expirationTime);
+        Date expiration = new Date(now.getTime() + expirationTime);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
@@ -53,7 +53,7 @@ public class JwtTokenUtil {
 		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 		if (claims != null) {
 			user.putAll((Map<String, Object>) claims.get("user"));
-			user.put("validity", claims.getExpiration());
+			user.put("expirationTime", claims.getExpiration());
 		}
 		return user;
 	}
