@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Store">
+
+	<select id="getStoreByStoreId" parameterType="java.lang.Integer" resultType="java.util.LinkedHashMap">
+		SELECT s.STORE_ID AS storeId
+			, s.STORE_NAME AS storeName
+			, s.ZALO AS zalo
+			, s.PHONE_NUMBER AS phoneNumber
+			, s.ADDRESS AS address
+			, s.STATUS_CD AS statusCd
+			, s.IS_DELETED AS isDeleted
+			, s.CREATED_ID AS createdId
+			, s.CREATED_DT AS createdDt
+		FROM STORE s
+			LEFT JOIN MASTER_INFO m ON m.CD = s.STATUS_CD AND m.TYPE = "STORE_STATUS"
+		WHERE s.STORE_ID = #{storeId}
+			AND s.IS_DELETED = 0
+	</select>
+	
+	<insert id="insert" parameterType="java.util.Map">
+		INSERT INTO STORE(
+			STORE_NAME
+			, ZALO
+			, PHONE_NUMBER
+			, ADDRESS
+			, STATUS_CD
+			, IS_DELETED
+			, CREATED_ID
+			, CREATED_DT
+		)
+		VALUES(
+			#{storeName}
+			, #{zalo}
+			, #{phoneNumber}
+			, #{address}
+			, 1
+			, 0
+			, #{createdId}
+			, NOW()
+		);
+	</insert>
+	
+	<update id="update" parameterType="java.util.Map">
+		UPDATE STORE SET
+			STORE_NAME = #{storeName}
+			, ZALO = #{zalo}
+			, PHONE_NUMBER = #{phoneNumber}
+			, ADDRESS = #{address}
+			, UPDATED_ID = #{updatedId}
+			, UPDATED_DT = NOW()
+		WHERE STORE_ID = #{storeId}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		UPDATE STORE SET IS_DELETED = 1 WHERE STORE_ID = #{storeId}
+	</delete>
+
+</mapper>
