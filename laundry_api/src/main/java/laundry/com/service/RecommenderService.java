@@ -18,12 +18,12 @@ public class RecommenderService extends CommonService {
 
 	public List<LinkedHashMap<String, String>> getRecomends() {
 		List<LinkedHashMap<String, String>> recommends = sqlSession.selectList("Recommender.getRecommendsByCreatedBy",
-				currentUser().get("phoneNumber"));
+				currentUser().getUsername());
 		return recommends;
 	}
 
 	public void insert(Map<String, Object> recommender) {
-		recommender.put("createdBy", currentUser().get("phoneNumber"));
+		recommender.put("createdBy", currentUser().getUsername());
 		sqlSession.insert("Recommender.insert", recommender);
 	}
 

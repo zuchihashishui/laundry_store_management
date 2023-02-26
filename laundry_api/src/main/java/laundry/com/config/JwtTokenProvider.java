@@ -2,7 +2,6 @@ package laundry.com.config;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +44,6 @@ public class JwtTokenProvider {
 	public Claims parseToken(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
-	
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> parseTokenToUser(String token) {
-		Map<String, Object> user = new LinkedHashMap<>();
-		
-		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-		if (claims != null) {
-			user.putAll((Map<String, Object>) claims.get("user"));
-			user.put("expirationTime", claims.getExpiration());
-		}
-		return user;
-	}
 
     public boolean validateToken(String token) {
         try {
@@ -67,5 +54,10 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    public String getSubjectFromJWT(String token) {
+    	Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return claims.getSubject();
     }
 }

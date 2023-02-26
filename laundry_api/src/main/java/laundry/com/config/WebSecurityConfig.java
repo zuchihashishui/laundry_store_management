@@ -40,8 +40,10 @@ public class WebSecurityConfig {
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		return http.cors().and().csrf().disable()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.authorizeRequests().antMatchers("/api/laundry/auth/login").permitAll().and()
-				.authorizeRequests().antMatchers(HttpMethod.POST, "/api/laundry/users").permitAll()
+				.authorizeRequests()
+					.antMatchers("/api/laundry/auth/login").permitAll()
+					.antMatchers(HttpMethod.POST, "/api/laundry/users").permitAll()
+					.antMatchers("/api/laundry/stores/**").hasAuthority("STORE_OWNER")
 				.anyRequest().authenticated().and()
 				.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).build();
 	}

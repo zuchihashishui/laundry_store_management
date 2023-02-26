@@ -21,12 +21,12 @@ public class StoreService extends CommonService {
 	}
 	
 	public void insert(Map<String, Object> store) {
-		store.put("createdId", currentUser().get("userId"));
+		store.put("createdId", currentUser().getUsername());
 		sqlSession.insert("Store.insert", store);
 	}
 	
 	public void update(Map<String, Object> store) {
-		store.put("updatedId", currentUser().get("userId"));
+		store.put("updatedId", currentUser().getUsername());
 		sqlSession.update("Store.update", store);
 	}
 	

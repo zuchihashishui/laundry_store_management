@@ -11,15 +11,17 @@ import laundry.com.response.ApiErrorResponse;
 
 @ControllerAdvice
 public class ExceptionHandling {
-	
+
 	@ExceptionHandler(value = LoginException.class)
 	protected ResponseEntity<Object> handleLoginFailed(LoginException ex, WebRequest request) {
-		return new ResponseEntity<>(new ApiErrorResponse(ex, HttpStatus.UNAUTHORIZED, Utils.getRequestUri(request)), HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(new ApiErrorResponse(ex, HttpStatus.UNAUTHORIZED, Utils.getRequestUri(request)),
+				HttpStatus.UNAUTHORIZED);
 	}
-	
+
 	@ExceptionHandler(value = SystemException.class)
 	protected ResponseEntity<Object> systemException(SystemException ex, WebRequest request) {
-		return new ResponseEntity<>(new ApiErrorResponse(ex, HttpStatus.BAD_REQUEST, Utils.getRequestUri(request)), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(new ApiErrorResponse(ex, HttpStatus.BAD_REQUEST, Utils.getRequestUri(request)),
+				HttpStatus.BAD_REQUEST);
 	}
 
 }
